@@ -19,20 +19,20 @@ public class UserUsage {
             user.setLogin("admin");
             user.setPassword("admin");
             userRepository.create(session, user);
-            userRepository.findAllUsersOrderById(session)
+            userRepository.findAllUsersOrderById()
                     .forEach(System.out::println);
-            userRepository.findByLikeLogin(session, "e")
+            userRepository.findByLikeLogin("e")
                     .forEach(System.out::println);
-            userRepository.findById(session, user.getId())
+            userRepository.findById(user.getId())
                     .ifPresent(System.out::println);
-            userRepository.findByLogin(session, "admin")
+            userRepository.findByLogin("admin")
                     .ifPresent(System.out::println);
             user.setPassword("password");
             userRepository.update(session, user);
-            userRepository.findById(session, user.getId())
+            userRepository.findById(user.getId())
                     .ifPresent(System.out::println);
             userRepository.delete(session, user.getId());
-            userRepository.findAllUsersOrderById(session)
+            userRepository.findAllUsersOrderById()
                     .forEach(System.out::println);
             userRepository.deleteAllUsers(session);
         } finally {

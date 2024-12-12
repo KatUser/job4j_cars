@@ -15,154 +15,83 @@ import java.util.Optional;
 public class UserRepository {
     private final SessionFactory sessionFactory;
 
-    /**
-     * Сохранить в базе.
-     *
-     * @param user пользователь.
-     * @return пользователь с id.
-     */
     public User create(Session session, User user) {
-
         try {
             session.beginTransaction();
-
             session.save(user);
-
             session.getTransaction().commit();
-
         } catch (Exception e) {
-
             session.getTransaction().rollback();
         }
         return user;
-
     }
 
-    /**
-     * Обновить в базе пользователя.
-     *
-     * @param user пользователь.
-     */
     public void update(Session session, User user) {
-
         try {
             session.beginTransaction();
-
-            session.createQuery("""
-                            UPDATE User
-                            SET login = :fLogin
-                            WHERE id = :fId"
-                            """)
-
+            session.createQuery("UPDATE User SET login = :fLogin WHERE id = :fId")
                     .setParameter("fLogin", user.getLogin())
-
                     .setParameter("fId", user.getId())
-
                     .executeUpdate();
-
             session.getTransaction().commit();
-
         } catch (Exception e) {
-
             session.getTransaction().rollback();
         }
-
     }
 
-    /**
-     * Удалить пользователя по id.
-     *
-     * @param userId ID
-     */
     public void delete(Session session, int userId) {
-
         try {
             session.beginTransaction();
-
-            session.createQuery("""
-                            DELETE User
-                            WHERE id = :fId
-                            """)
+            session.createQuery(" DELETE User WHERE id = :fId")
                     .setParameter("fId", userId)
                     .executeUpdate();
-
             session.getTransaction().commit();
-
         } catch (Exception e) {
-
             session.getTransaction().rollback();
         }
     }
 
-    /**
-     * Список пользователь отсортированных по id.
-     *
-     * @return список пользователей.
-     */
-    public List<User> findAllUsersOrderById(Session session) {
-
-        List<User> query = session.createQuery("from User", User.class).list();
-
-        query.sort(Comparator.comparing(User::getId));
-
-        return query;
+    public List<User> findAllUsersOrderById() {
+        try (Session session = sessionFactory.openSession()) {
+            List<User> query = session
+                    .createQuery("from User", User.class).list();
+            query.sort(Comparator.comparing(User::getId));
+            return query;
+        }
     }
 
-    /**
-     * Найти пользователя по ID
-     *
-     * @return пользователь.
-     */
-    public Optional<User> findById(Session session, int userId) {
-
-        Query<User> query = session.createQuery(
-                "FROM User AS u WHERE u.id = " + userId, User.class
-        );
-
-        return Optional.ofNullable(query.uniqueResult());
+    public Optional<User> findById(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session
+                    .createQuery("FROM User AS u WHERE u.id = " + userId, User.class);
+            return query.uniqueResultOptional();
+        }
     }
 
-    /**
-     * Список пользователей по login LIKE %key%
-     *
-     * @param key key
-     * @return список пользователей.
-     */
-    public List<User> findByLikeLogin(Session session, String key) {
-
-        List<User> query = session
-                .createQuery("FROM User AS u WHERE u.login LIKE :fKey", User.class)
-                .setParameter("fKey", String.format("%%%s%%", key))
-                .list();
-
-        return query;
+    public List<User> findByLikeLogin(String key) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session
+                    .createQuery("FROM User AS u WHERE u.login LIKE :fKey", User.class)
+                    .setParameter("fKey", String.format("%%%s%%", key));
+            return query.list();
+        }
     }
 
-    /**
-     * Найти пользователя по login.
-     *
-     * @param login login.
-     * @return Optional or user.
-     */
-    public Optional<User> findByLogin(Session session, String login) {
-
-        Query<User> query = session.createQuery(
-                "FROM User AS u WHERE u.login = :fLogin", User.class
-        ).setParameter("fLogin", login);
-
-        return Optional.ofNullable(query.uniqueResult());
+    public Optional<User> findByLogin(String login) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session
+                    .createQuery("FROM User AS u WHERE u.login = :fLogin", User.class)
+                    .setParameter("fLogin", login);
+            return query.uniqueResultOptional();
+        }
     }
 
     public void deleteAllUsers(Session session) {
         try {
             session.beginTransaction();
-
             session.createQuery("DELETE from User").executeUpdate();
-
             session.getTransaction().commit();
-
         } catch (Exception e) {
-
             session.getTransaction().rollback();
         }
     }
