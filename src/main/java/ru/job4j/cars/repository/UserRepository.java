@@ -17,7 +17,8 @@ public class UserRepository {
 
     public User create(User user) {
 
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
@@ -30,7 +31,8 @@ public class UserRepository {
     }
 
     public void update(User user) {
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             session.beginTransaction();
             session.createQuery("UPDATE User SET login = :fLogin WHERE id = :fId")
                     .setParameter("fLogin", user.getLogin())
@@ -45,7 +47,8 @@ public class UserRepository {
     }
 
     public void delete(int userId) {
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             session.beginTransaction();
             session.createQuery(" DELETE User WHERE id = :fId")
                     .setParameter("fId", userId)
@@ -60,7 +63,8 @@ public class UserRepository {
 
     public List<User> findAllUsersOrderById() {
         List<User> query = Collections.emptyList();
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             query = session
                     .createQuery("from User", User.class).list();
             query.sort(Comparator.comparing(User::getId));
@@ -74,7 +78,8 @@ public class UserRepository {
 
     public Optional<User> findById(int userId) {
         Optional<User> query = Optional.empty();
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             query = session
                     .createQuery("FROM User AS u WHERE u.id = :fUserId", User.class)
                     .setParameter("fUserId", userId)
@@ -89,7 +94,8 @@ public class UserRepository {
 
     public List<User> findByLikeLogin(String key) {
         List<User> query = Collections.emptyList();
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             query = session
                     .createQuery("FROM User AS u WHERE u.login LIKE :fKey", User.class)
                     .setParameter("fKey", String.format("%%%s%%", key))
@@ -104,7 +110,8 @@ public class UserRepository {
 
     public Optional<User> findByLogin(String login) {
         Optional<User> query = Optional.empty();
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             query = session
                     .createQuery("FROM User AS u WHERE u.login = :fLogin", User.class)
                     .setParameter("fLogin", login)
@@ -118,7 +125,8 @@ public class UserRepository {
     }
 
     public void deleteAllUsers() {
-        try (Session session = sessionFactory.openSession()) {
+        try {
+            Session session = sessionFactory.openSession();
             session.beginTransaction();
             session.createQuery("DELETE from User").executeUpdate();
             session.getTransaction().commit();
