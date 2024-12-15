@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import org.hibernate.query.Query;
 import ru.job4j.cars.model.User;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -15,19 +15,22 @@ import java.util.Optional;
 public class UserRepository {
     private final SessionFactory sessionFactory;
 
-    public User create(Session session, User user) {
-        try {
+    public User create(User user) {
+
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
         } catch (Exception e) {
-            session.getTransaction().rollback();
+            sessionFactory.getCurrentSession().getTransaction().rollback();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
         return user;
     }
 
-    public void update(Session session, User user) {
-        try {
+    public void update(User user) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.createQuery("UPDATE User SET login = :fLogin WHERE id = :fId")
                     .setParameter("fLogin", user.getLogin())
@@ -35,64 +38,94 @@ public class UserRepository {
                     .executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
-            session.getTransaction().rollback();
+            sessionFactory.getCurrentSession().getTransaction().rollback();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
     }
 
-    public void delete(Session session, int userId) {
-        try {
+    public void delete(int userId) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.createQuery(" DELETE User WHERE id = :fId")
                     .setParameter("fId", userId)
                     .executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
-            session.getTransaction().rollback();
+            sessionFactory.getCurrentSession().getTransaction().rollback();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
     }
 
     public List<User> findAllUsersOrderById() {
+        List<User> query = Collections.emptyList();
         try (Session session = sessionFactory.openSession()) {
-            List<User> query = session
+            query = session
                     .createQuery("from User", User.class).list();
             query.sort(Comparator.comparing(User::getId));
-            return query;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
+        return query;
     }
 
     public Optional<User> findById(int userId) {
+        Optional<User> query = Optional.empty();
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session
-                    .createQuery("FROM User AS u WHERE u.id = " + userId, User.class);
-            return query.uniqueResultOptional();
+            query = session
+                    .createQuery("FROM User AS u WHERE u.id = :fUserId", User.class)
+                    .setParameter("fUserId", userId)
+                    .uniqueResultOptional();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
+        return query;
     }
 
     public List<User> findByLikeLogin(String key) {
+        List<User> query = Collections.emptyList();
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session
+            query = session
                     .createQuery("FROM User AS u WHERE u.login LIKE :fKey", User.class)
-                    .setParameter("fKey", String.format("%%%s%%", key));
-            return query.list();
+                    .setParameter("fKey", String.format("%%%s%%", key))
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
+        return query;
     }
 
     public Optional<User> findByLogin(String login) {
+        Optional<User> query = Optional.empty();
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session
+            query = session
                     .createQuery("FROM User AS u WHERE u.login = :fLogin", User.class)
-                    .setParameter("fLogin", login);
-            return query.uniqueResultOptional();
+                    .setParameter("fLogin", login)
+                    .uniqueResultOptional();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
+        return query;
     }
 
-    public void deleteAllUsers(Session session) {
-        try {
+    public void deleteAllUsers() {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.createQuery("DELETE from User").executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
-            session.getTransaction().rollback();
+            sessionFactory.getCurrentSession().getTransaction().rollback();
+        } finally {
+            sessionFactory.getCurrentSession().close();
         }
     }
 }
