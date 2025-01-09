@@ -12,12 +12,12 @@ public class UserUsage {
                 .configure().build();
         try (SessionFactory sessionFactory = new MetadataSources(registry)
                 .buildMetadata().buildSessionFactory()) {
-            var userRepository = new UserRepository(sessionFactory);
+            var userRepository = new UserRepository(new CrudRepository(sessionFactory));
             var user = new User();
             user.setLogin("admin");
             user.setPassword("admin");
             userRepository.create(user);
-            userRepository.findAllUsersOrderById()
+            userRepository.findAllOrderById()
                     .forEach(System.out::println);
             userRepository.findByLikeLogin("a")
                     .forEach(System.out::println);
@@ -31,7 +31,7 @@ public class UserUsage {
                     .ifPresent(System.out::println);
 
             userRepository.delete(user.getId());
-            userRepository.findAllUsersOrderById()
+            userRepository.findAllOrderById()
                     .forEach(System.out::println);
             userRepository.deleteAllUsers();
         } finally {
