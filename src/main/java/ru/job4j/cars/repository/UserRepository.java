@@ -86,7 +86,7 @@ public class UserRepository {
         );
     }
 
-    public void deleteAllUsers() {
+    public void deleteAll() {
         crudRepository.run("delete from User");
     }
 }
