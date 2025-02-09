@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "auto_post")
+@Table(name = "post")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,20 +21,20 @@ public class Post {
     private int id;
     private String description;
     private LocalDateTime created;
+    @Column(name = "user_id")
     private int userId;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistory = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "participants",
-            joinColumns = { @JoinColumn(name = "post_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
-    )
-    private List<User> participants = new ArrayList<>();
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id")
     private Car car;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Brand brand;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Picture> picture = new ArrayList<>();
 }
