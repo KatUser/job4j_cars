@@ -30,4 +30,5 @@ public class Car {
 
    @OneToOne(cascade = CascadeType.ALL)
    private Owner currentOwner;
+
 }

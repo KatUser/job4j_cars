@@ -1,4 +1,4 @@
-CREATE TABLE owner_history --таблица для связей @ManyToMany
+CREATE TABLE owner_history
 (
     id       SERIAL PRIMARY KEY,
     owner_id int REFERENCES owner (id),

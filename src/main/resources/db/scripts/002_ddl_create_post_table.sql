@@ -1,8 +1,8 @@
-CREATE TABLE auto_post
+CREATE TABLE post
 (
     id SERIAL PRIMARY KEY,
     description VARCHAR NOT NULL,
     created TIMESTAMP,
-    auto_user_id INT REFERENCES auto_user(id)
+    user_id INT REFERENCES auto_user(id)
     
 );
