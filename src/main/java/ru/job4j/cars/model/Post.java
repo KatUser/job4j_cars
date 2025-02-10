@@ -1,6 +1,8 @@
 package ru.job4j.cars.model;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,7 +26,7 @@ public class Post {
     @Column(name = "user_id")
     private int userId;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistory = new ArrayList<>();
 
@@ -32,6 +34,8 @@ public class Post {
     @JoinColumn(name = "car_id")
     private Car car;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Picture> picture = new ArrayList<>();
+
 }

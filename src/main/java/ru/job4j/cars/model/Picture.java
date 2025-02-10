@@ -20,4 +20,6 @@ public class Picture {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false, foreignKey = @ForeignKey(name = "POST_ID_FK"))
     private Post post;
+
+    private String path;
 }
