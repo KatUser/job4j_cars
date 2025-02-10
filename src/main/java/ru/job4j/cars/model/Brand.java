@@ -16,4 +16,6 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
+
+    private String brand;
 }

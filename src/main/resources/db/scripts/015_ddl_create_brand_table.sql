@@ -1,4 +1,5 @@
 CREATE TABLE brand
 (
-    id SERIAL PRIMARY KEY
+    id SERIAL PRIMARY KEY,
+    brand VARCHAR NOT NULL
 );
