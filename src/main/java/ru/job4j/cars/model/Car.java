@@ -28,7 +28,9 @@ public class Car {
             inverseJoinColumns = {@JoinColumn(name = "owner_id", nullable = false, updatable = false)})
     private Set<Owner> owners = new HashSet<>();
 
-   @OneToOne(cascade = CascadeType.ALL)
-   private Owner currentOwner;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Owner currentOwner;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Brand brand;
 }

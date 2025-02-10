@@ -32,9 +32,6 @@ public class Post {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Brand brand;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Picture> picture = new ArrayList<>();
 }
