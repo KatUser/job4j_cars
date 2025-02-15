@@ -41,7 +41,7 @@ public class CarRepository {
         );
     }
 
-    public void deleteAllUsers() {
+    public void deleteAllCars() {
         crudRepository.run("delete from Car");
     }
 

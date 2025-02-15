@@ -51,4 +51,9 @@ public class PostRepository {
                 Map.of("fBrand", brand)
         );
     }
+
+    public Post create(Post post) {
+        crudRepository.run(session -> session.save(post));
+        return post;
+    }
 }
