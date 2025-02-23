@@ -2,10 +2,12 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.User;
 
 import java.util.*;
 
+@Repository
 @AllArgsConstructor
 public class UserRepository {
 
@@ -24,6 +26,7 @@ public class UserRepository {
 
     /**
      * Обновить в базе пользователя.
+     *
      * @param user пользователь.
      */
     public void update(User user) {
@@ -32,6 +35,7 @@ public class UserRepository {
 
     /**
      * Удалить пользователя по id.
+     *
      * @param userId ID
      */
     public void delete(int userId) {
@@ -43,6 +47,7 @@ public class UserRepository {
 
     /**
      * Список пользователь отсортированных по id.
+     *
      * @return список пользователей.
      */
     public List<User> findAllOrderById() {
@@ -51,6 +56,7 @@ public class UserRepository {
 
     /**
      * Найти пользователя по ID
+     *
      * @return пользователь.
      */
     public Optional<User> findById(int userId) {
@@ -62,6 +68,7 @@ public class UserRepository {
 
     /**
      * Список пользователей по login LIKE %key%
+     *
      * @param key key
      * @return список пользователей.
      */
@@ -75,6 +82,7 @@ public class UserRepository {
 
     /**
      * Найти пользователя по login.
+     *
      * @param login login.
      * @return Optional or user.
      */
@@ -88,5 +96,12 @@ public class UserRepository {
 
     public void deleteAll() {
         crudRepository.run("delete from User");
+    }
+
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        return crudRepository.optional(
+                "from User where login = :fLogin and password = :fPassword", User.class,
+                Map.of("fLogin", login, "fPassword", password)
+        );
     }
 }

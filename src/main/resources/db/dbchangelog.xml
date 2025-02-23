@@ -8,7 +8,7 @@
 
     <include file="scripts/001_ddl_create_auto_user_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002_ddl_create_post_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/003_dml_insert_data_inti_auto_user_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_dml_insert_data_into_auto_user_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_alter_price_history_table_add_post_id_column.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_create_participants_table.sql" relativeToChangelogFile="true"/>
@@ -22,5 +22,11 @@
     <include file="scripts/014_ddl_create_picture_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/015_ddl_create_brand_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/016_ddl_alter_car_table_add_brand_id_column.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/017_ddl_create_body_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/018_ddl_alter_car_table_add_body_id_column.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/019_ddl_create_drive_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/020_ddl_alter_car_table_add_drive_id_column.sql" relativeToChangelogFile="true"/>
+
+
 
 </databaseChangeLog>

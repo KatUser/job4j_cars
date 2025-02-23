@@ -1,12 +1,14 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Car;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Repository
 @AllArgsConstructor
 public class CarRepository {
 
@@ -21,10 +23,10 @@ public class CarRepository {
         crudRepository.run(session -> session.merge(car));
     }
 
-    public void delete(int userId) {
+    public void delete(int carId) {
         crudRepository.run(
                 "delete from Car where id = :fId",
-                Map.of("fId", userId)
+                Map.of("fId", carId)
         );
     }
 

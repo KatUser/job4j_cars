@@ -19,9 +19,6 @@ public class Car {
     @EqualsAndHashCode.Include
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Engine engine;
-
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "owner_history", joinColumns = {
             @JoinColumn(name = "car_id", nullable = false, updatable = false)},
@@ -31,6 +28,19 @@ public class Car {
     @OneToOne(cascade = CascadeType.ALL)
     private Owner currentOwner;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "engine_id")
+    private Engine engine;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    @ManyToOne
+    @JoinColumn(name = "body_id")
+    private Body body;
+
+    @ManyToOne
+    @JoinColumn(name = "drive_id")
+    private Drive drive;
 }

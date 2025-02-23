@@ -17,5 +17,5 @@ public class Brand {
     @EqualsAndHashCode.Include
     private int id;
 
-    private String brand;
+    private String name;
 }

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <!--  Зависимости Bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+            crossorigin="anonymous"></script>
+
+    <title>Редактирование Объявления</title>
+</head>
+<body>
+<div class="container-fluid p-0">
+    <header th:insert="blocks/header :: header"></header>
+    <div class="container">
+        <form class="mt-3" th:action="@{/posts/update}" method="post" th:object="${post}">
+            <input type="hidden" name="id" th:field="*{id}">
+            <div class="mb-3">
+                <label for="description" class="form-label"><b>Новое Описание</b></label>
+                <input type="text" class="form-control" id="description" name="description"
+                       placeholder="Новое описание" required>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="description">Марка</label>
+                <select name="brand.id" required>
+                    <option th:each="brand :${brands}"
+                            th:text="${brand.name}"
+                            th:value="${brand.id}">
+                </select>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="description">Кузов</label>
+                <select name="body.id" required>
+                    <option th:each="body :${bodies}"
+                            th:text="${body.name}"
+                            th:value="${body.id}">
+                </select>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="description">Привод</label>
+                <select name="drive.id" required>
+                    <option th:each="drive :${drives}"
+                            th:text="${drive.name}"
+                            th:value="${drive.id}">
+                </select>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="description">Двигатель</label>
+                <select name="engine.id" required>
+                    <option th:each="engine :${engines}"
+                            th:text="${engine.name}"
+                            th:value="${engine.id}">
+                </select>
+            </div>
+            <br>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/posts/{postId}(postId=${post.id})}">Отмена</a></div>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-primary w-100" type="submit">Обновить</button>
+                    </div>
+                    <footer th:insert="blocks/footer :: footer"></footer>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
