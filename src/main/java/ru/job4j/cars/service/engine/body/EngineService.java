@@ -1,6 +1,5 @@
 package ru.job4j.cars.service.engine.body;
 
-import ru.job4j.cars.model.Body;
 import ru.job4j.cars.model.Engine;
 
 import java.util.List;

@@ -2,9 +2,7 @@ package ru.job4j.cars.service.engine.body;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.job4j.cars.model.Body;
 import ru.job4j.cars.model.Engine;
-import ru.job4j.cars.repository.BodyRepository;
 import ru.job4j.cars.repository.EngineRepository;
 
 import java.util.List;

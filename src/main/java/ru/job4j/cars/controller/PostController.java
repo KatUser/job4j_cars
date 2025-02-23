@@ -1,7 +1,6 @@
 package ru.job4j.cars.controller;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,8 @@ import ru.job4j.cars.service.drive.DriveService;
 import ru.job4j.cars.service.engine.body.EngineService;
 import ru.job4j.cars.service.post.PostService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor

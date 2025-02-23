@@ -2,7 +2,6 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.model.Engine;
 import ru.job4j.cars.model.Post;
 
 import java.time.LocalDateTime;
