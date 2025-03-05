@@ -31,12 +31,6 @@ public class PostRepository {
      * Показать объявления с фото
      */
     public List<Post> findAllPostsWithPics() {
-//        return crudRepository.query("""
-//                        from Post p
-//                        join p.picture
-//                        where size(p.picture) > 0
-//                        """,
-//                Post.class);
         return crudRepository.query(
                 """
                         from Post pt
