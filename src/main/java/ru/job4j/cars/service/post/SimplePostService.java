@@ -40,8 +40,8 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public void setPostAsSold(int id) {
-        postRepository.setPostAsSold(id);
+    public void setAsSold(int id) {
+        postRepository.setAsSold(id);
     }
 
 }

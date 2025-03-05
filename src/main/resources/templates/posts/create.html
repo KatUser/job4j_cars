@@ -63,24 +63,10 @@
                             th:value="${engine.id}">
                 </select>
             </div>
-<!--            </div>-->
-<!--            <div class="mb-3">-->
-<!--                <label for="title">Объем двигателя</label>-->
-<!--                <select name="categoriesId" multiple="multiple" required>-->
-<!--                    <option th:each="category :${categories}"-->
-<!--                            th:text="${category.name}"-->
-<!--                            th:value="${category.id}">-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div class="mb-3">-->
-<!--                <label for="title">Год выпуска</label>-->
-<!--                <select name="categoriesId" multiple="multiple" required>-->
-<!--                    <option th:each="category :${categories}"-->
-<!--                            th:text="${category.name}"-->
-<!--                            th:value="${category.id}">-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <br>-->
+            <div class="mb-3">
+                <label for="formFile"><b>Фото</b></label>
+                <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file" required>
+            </div>
             <div class="col-6">
                 <div class="row">
                     <div class="col-4"><a class="btn btn-dark w-100" th:href="@{/posts}">Отмена</a>

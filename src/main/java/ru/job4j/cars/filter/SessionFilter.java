@@ -32,7 +32,7 @@ public class SessionFilter extends HttpFilter {
         var user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
-            user.setLogin(request.getParameter("login"));
+            user.setLogin("Guest");
         }
         request.setAttribute("user", user);
     }

@@ -37,7 +37,7 @@ public class UserController {
         }
         var session = request.getSession();
         session.setAttribute("user", user);
-        return "redirect:/post";
+        return "redirect:/posts";
     }
 
     @GetMapping("/login")

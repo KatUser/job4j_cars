@@ -16,6 +16,8 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
+
     private Long startAt;
+
     private Long endAt;
 }

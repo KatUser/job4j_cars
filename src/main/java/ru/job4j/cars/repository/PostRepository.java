@@ -83,9 +83,9 @@ public class PostRepository {
         crudRepository.run(session -> session.merge(post));
     }
 
-    public void setPostAsSold(int postId) {
+    public void setAsSold(int id) {
         crudRepository.run(
                 "UPDATE Post SET sold = true WHERE id = :fId",
-                Map.of("fId", postId));
+                Map.of("fId", id));
     }
 }

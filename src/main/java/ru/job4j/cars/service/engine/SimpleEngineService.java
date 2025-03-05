@@ -1,4 +1,4 @@
-package ru.job4j.cars.service.engine.body;
+package ru.job4j.cars.service.engine;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class SimpleEngineService implements EngineService {
     private final EngineRepository engineRepository;
 
     @Override
-    public List<Engine> findAll() {
+    public List<Engine> findAllEngines() {
         return engineRepository.findAllOrderById();
     }
 

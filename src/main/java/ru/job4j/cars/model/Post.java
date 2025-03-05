@@ -35,9 +35,8 @@ public class Post {
     private Car car;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Picture> picture = new ArrayList<>();
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Picture picture;
 
     private boolean sold = false;
-
 }

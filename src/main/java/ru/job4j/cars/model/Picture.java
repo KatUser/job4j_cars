@@ -17,8 +17,8 @@ public class Picture {
     @EqualsAndHashCode.Include
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false, foreignKey = @ForeignKey(name = "POST_ID_FK"))
+    @OneToOne
+    @JoinColumn(name = "post_id", foreignKey = @ForeignKey(name = "POST_ID_FK"))
     private Post post;
 
     private String path;

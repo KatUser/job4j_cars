@@ -17,6 +17,6 @@ public interface PostService {
 
     void update(Post post);
 
-    void setPostAsSold(int id);
+    void setAsSold(int id);
 
 }

@@ -26,39 +26,31 @@
                 <thead>
                 <tr>
                     <th scope="col">Описание</th>
-                    <th scope="col">Дата создания</th>
-<!--                    <th scope="col">Статус выполнения</th>-->
-<!--                    <th scope="col">Автор задания</th>-->
-<!--                    <th scope="col">Приоритет</th>-->
-<!--                    <th scope="col">Категория</th>-->
+                    <th scope="col">Дата создания/Редактирования</th>
+                    <th scope="col">Статус продажи</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="post: ${posts}">
                     <td><a th:text="${post.description}"
                            th:href="@{/posts/{postId}(postId=${post.id})}"/></a></td>
-<!--                    <td th:text="${task.description}"/>-->
                     <td th:text="${#temporals.format(post.created, 'HH:mm dd-MM-yyyy')}"/>
-<!--                    <td th:switch="${task.done}">-->
-<!--                        <span th:case="true" th:text="Выполнено"/>-->
-<!--                        <span th:case="false" th:text="'Ожидает' + ' выполнения'"/>-->
-<!--                    </td>-->
-<!--                    <td th:text="${task.user}"/>-->
-<!--                    <td th:text="${task.priority.name}"/>-->
-<!--                    <td th:text="${task.categoriesList}"/>-->
+                    <div th:switch="${post.sold}">
+                        <td th:case="true">Продано</td>
+                        <td th:case="false">В продаже</td>
+                    </div>
                 </tr>
                 </tbody>
             </table>
-            <div class="col-5">
-                <div class="row">
-                    <div class="col-6">
+
+            <div class="col-3">
+                <div th:switch="${user.login !='Guest'}">
+                    <p th:case="true">
                         <a class="btn btn-primary w-100" th:href="@{/posts/create}">Добавить Объявление</a>
-                    </div>
+                    <p th:case="false">
+                        <a class="btn btn-primary w-100" th:href="@{/users/register}">Регистрация</a>
                 </div>
             </div>
-<!--            <div class="row">-->
-<!--                <div class="col-6"><a class="btn btn-info w-50" th:href="@{/tasks}">Обратно</a></div>-->
-<!--            </div>-->
             <footer th:insert="blocks/footer :: footer"></footer>
         </div>
     </div>

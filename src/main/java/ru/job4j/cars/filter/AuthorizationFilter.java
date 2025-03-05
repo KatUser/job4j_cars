@@ -37,6 +37,6 @@ public class AuthorizationFilter extends HttpFilter {
     }
 
     private boolean isForbiddenForNonAuthorizedUser(String uri) {
-        return uri.startsWith("/posts");
+        return uri.contains("create");
     }
 }

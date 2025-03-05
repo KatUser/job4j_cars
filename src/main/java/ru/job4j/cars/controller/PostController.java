@@ -4,19 +4,24 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.model.Car;
+import ru.job4j.cars.model.Picture;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.User;
-import ru.job4j.cars.repository.PostRepository;
 import ru.job4j.cars.service.body.BodyService;
 import ru.job4j.cars.service.brand.BrandService;
 import ru.job4j.cars.service.car.CarService;
 import ru.job4j.cars.service.drive.DriveService;
-import ru.job4j.cars.service.engine.body.EngineService;
+import ru.job4j.cars.service.engine.EngineService;
+import ru.job4j.cars.service.picture.PictureService;
 import ru.job4j.cars.service.post.PostService;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+
+import java.util.Base64;
 
 @Controller
 @AllArgsConstructor
@@ -34,7 +39,8 @@ public class PostController {
     private final CarService carService;
 
     private final EngineService engineService;
-    private final PostRepository postRepository;
+
+    private final PictureService pictureService;
 
     @GetMapping
     public String getAllPosts(Model model) {
@@ -57,6 +63,7 @@ public class PostController {
         model.addAttribute("body", bodyService.findBodyById(post.getCar().getBody().getId()).get());
         model.addAttribute("drive", driveService.findDriveById(post.getCar().getDrive().getId()).get());
         model.addAttribute("engine", engineService.findById(post.getCar().getEngine().getId()).get());
+        model.addAttribute("picture", post.getPicture().getPath());
         return "posts/one";
     }
 
@@ -65,8 +72,7 @@ public class PostController {
         model.addAttribute("brands", brandService.findAllBrands());
         model.addAttribute("bodies", bodyService.findAllBodies());
         model.addAttribute("drives", driveService.findAllDrives());
-        model.addAttribute("engines", engineService.findAll());
-
+        model.addAttribute("engines", engineService.findAllEngines());
         return "posts/create";
     }
 
@@ -74,13 +80,19 @@ public class PostController {
     public String create(@ModelAttribute Post post,
                          @ModelAttribute Car car,
                          @SessionAttribute User user,
-                         Model model) {
+                         @RequestParam MultipartFile file,
+                         Model model) throws IOException {
+
+        var pic = new Picture();
+        pic.setPath(Base64.getEncoder().encodeToString(file.getBytes()));
+        pic.setPost(post);
         post.setUserId(user.getId());
         post.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
         post.setCar(car);
         var savedCar = carService.create(car);
         var savedPost = postService.create(post);
-        if (savedPost == null || savedCar == null) {
+        var savedPicture = pictureService.create(pic);
+        if (savedPost == null || savedCar == null || savedPicture == null) {
             model.addAttribute("message",
                     "Не удалось создать объявление, попробуйте заново");
             return "errors/404";
@@ -106,16 +118,22 @@ public class PostController {
         model.addAttribute("brands", brandService.findAllBrands());
         model.addAttribute("bodies", bodyService.findAllBodies());
         model.addAttribute("drives", driveService.findAllDrives());
-        model.addAttribute("engines", engineService.findAll());
+        model.addAttribute("engines", engineService.findAllEngines());
         return "posts/update";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute Post post,
                          @ModelAttribute Car car,
-                         @SessionAttribute User user) {
+                         @SessionAttribute User user,
+                         @RequestParam MultipartFile file) throws IOException {
+        var pic = new Picture();
+        pic.setPath(Base64.getEncoder().encodeToString(file.getBytes()));
+        pic.setPost(post);
+        post.setUserId(user.getId());
         post.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
         post.setCar(car);
+        pictureService.update(pic);
         carService.update(car);
         postService.update(post);
         return "redirect:/posts";
@@ -123,7 +141,7 @@ public class PostController {
 
     @GetMapping("/sold/{id}")
     public String setPostAsSold(@PathVariable int id) {
-        postService.setPostAsSold(id);
+        postService.setAsSold(id);
         return "redirect:/posts";
     }
 }
