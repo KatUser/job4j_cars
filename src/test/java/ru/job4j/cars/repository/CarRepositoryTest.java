@@ -76,8 +76,8 @@ public class CarRepositoryTest {
         car3.setId(3);
         car1.setId(1);
         var result = carRepository.findAllOrderById();
-        assertThat(result.getFirst().getId()).isEqualTo(1);
-        assertThat(result.getLast().getId()).isEqualTo(3);
+        assertThat(result.get(0).getId()).isEqualTo(1);
+        assertThat(result.get(2).getId()).isEqualTo(3);
         assertThat(result.get(1).getId()).isEqualTo(2);
     }
 

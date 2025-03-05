@@ -64,8 +64,8 @@ class EngineRepositoryTest {
         engine1.setId(1);
         engine2.setId(2);
         var result = engineRepository.findAllOrderById();
-        Assertions.assertThat(result.getFirst().getId()).isEqualTo(1);
-        Assertions.assertThat(result.getLast().getId()).isEqualTo(2);
+        assertThat(result.get(0).getId()).isEqualTo(1);
+        assertThat(result.get(1).getId()).isEqualTo(2);
     }
 
     @Test
@@ -73,7 +73,7 @@ class EngineRepositoryTest {
         var engine = new Engine();
         engineRepository.create(engine);
         engine.setId(1);
-        Assertions.assertThat(engineRepository.findById(engine.getId()).get()).isEqualTo(engine);
+        assertThat(engineRepository.findById(engine.getId()).get()).isEqualTo(engine);
     }
 
     @Test

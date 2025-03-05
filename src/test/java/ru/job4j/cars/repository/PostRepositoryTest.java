@@ -55,7 +55,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    public void whenHaveAPostWithABrandThenReturnSavedPost() {
+    public void whenSaveAPostWithABrandThenReturnSavedPost() {
         BrandRepository brandRepository = new BrandRepository(crudRepository);
         var testBrand = "testBrand";
         var brand = new Brand(1, testBrand);

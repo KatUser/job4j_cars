@@ -68,9 +68,9 @@ class OwnerRepositoryTest {
         owner2.setId(2);
         owner1.setId(1);
         var result = ownerRepository.findAllOrderById();
-        assertThat(result.getFirst().getId()).isEqualTo(1);
+        assertThat(result.get(0).getId()).isEqualTo(1);
         assertThat(result.get(1).getId()).isEqualTo(2);
-        assertThat(result.getLast().getId()).isEqualTo(3);
+        assertThat(result.get(2).getId()).isEqualTo(3);
     }
 
     @Test

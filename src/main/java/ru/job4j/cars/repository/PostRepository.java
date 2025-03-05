@@ -31,13 +31,22 @@ public class PostRepository {
      * Показать объявления с фото
      */
     public List<Post> findAllPostsWithPics() {
-        return crudRepository.query("""
-                        select distinct p
-                        from Post p
-                        join p.picture
-                        where size(p.picture) > 0
-                        """,
-                Post.class);
+//        return crudRepository.query("""
+//                        from Post p
+//                        join p.picture
+//                        where size(p.picture) > 0
+//                        """,
+//                Post.class);
+        return crudRepository.query(
+                """
+                        from Post pt
+                        where pt.id in (
+                        from Picture pc
+                        group by pc.post
+                        having count(*) > 0
+                        )
+                        """, Post.class
+        );
     }
 
     /**
@@ -46,10 +55,11 @@ public class PostRepository {
     public List<Post> findAllPostsByBrand(String brand) {
         return crudRepository.query("""
                         from Post
-                        where car.brand in
+                        where car_id in
                         (select id
-                        from Brand
-                        where brand = :fBrand)
+                        from Car
+                        where brand_id in(
+                        select id from Brand where name = :fBrand))
                         """,
                 Post.class,
                 Map.of("fBrand", brand)
@@ -76,7 +86,7 @@ public class PostRepository {
     }
 
     public void delete(Post post) {
-       crudRepository.run(session -> session.delete(post));
+        crudRepository.run(session -> session.delete(post));
     }
 
     public void update(Post post) {
