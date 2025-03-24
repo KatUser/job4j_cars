@@ -2,6 +2,7 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Picture;
 
 import java.util.Map;
@@ -33,4 +34,9 @@ public class PictureRepository {
     public void update(Picture picture) {
         crudRepository.run(session -> session.merge(picture));
     }
+
+    public void delete(Picture picture) {
+        crudRepository.run(session -> session.delete(picture));
+    }
+
 }

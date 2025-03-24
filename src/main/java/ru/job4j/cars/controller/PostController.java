@@ -17,6 +17,7 @@ import ru.job4j.cars.service.engine.EngineService;
 import ru.job4j.cars.service.picture.PictureService;
 import ru.job4j.cars.service.post.PostService;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -57,6 +58,10 @@ public class PostController {
             model.addAttribute("message", "Такого объявления нет");
             return "errors/404";
         }
+        if (postOptional.get().getPicture() == null) {
+            model.addAttribute("message", "Фото не найдено");
+            return "errors/404";
+        }
         Post post = postOptional.get();
         model.addAttribute("post", post);
         model.addAttribute("brand", brandService.findBrandById(post.getCar().getBrand().getId()).get());
@@ -93,6 +98,9 @@ public class PostController {
         var savedPost = postService.create(post);
         var savedPicture = pictureService.create(pic);
         if (savedPost == null || savedCar == null || savedPicture == null) {
+            carService.delete(savedCar);
+            postService.delete(savedPost);
+            pictureService.delete(savedPicture);
             model.addAttribute("message",
                     "Не удалось создать объявление, попробуйте заново");
             return "errors/404";

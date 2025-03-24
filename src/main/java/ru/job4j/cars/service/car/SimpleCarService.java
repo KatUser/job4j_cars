@@ -25,8 +25,8 @@ public class SimpleCarService implements CarService {
     }
 
     @Override
-    public void delete(int id) {
-        carRepository.delete(id);
+    public void delete(Car car) {
+        carRepository.delete(car);
     }
 
     @Override

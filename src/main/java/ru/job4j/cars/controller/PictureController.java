@@ -18,7 +18,7 @@ public class PictureController {
     @ResponseBody
     @GetMapping("/{id}")
     public byte[] picture(@PathVariable int id) throws IOException {
-        var picture = pictureService.findByPost(id);
-        return javax.xml.bind.DatatypeConverter.parseBase64Binary(picture.get().getPath());
+        var pictureOptional = pictureService.findByPost(id);
+        return javax.xml.bind.DatatypeConverter.parseBase64Binary(pictureOptional.get().getPath());
     }
 }

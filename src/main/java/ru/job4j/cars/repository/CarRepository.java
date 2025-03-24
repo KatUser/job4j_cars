@@ -23,11 +23,8 @@ public class CarRepository {
         crudRepository.run(session -> session.merge(car));
     }
 
-    public void delete(int carId) {
-        crudRepository.run(
-                "delete from Car where id = :fId",
-                Map.of("fId", carId)
-        );
+    public void delete(Car car) {
+        crudRepository.run(session -> session.delete(car));
     }
 
     public List<Car> findAllOrderById() {
