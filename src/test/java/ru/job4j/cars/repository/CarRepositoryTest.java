@@ -60,7 +60,7 @@ public class CarRepositoryTest {
         var car = new Car();
         carRepository.create(car);
         car.setId(1);
-        carRepository.delete(1);
+        carRepository.delete(car);
         assertThat(carRepository.findById(car.getId())).isEmpty();
     }
 
