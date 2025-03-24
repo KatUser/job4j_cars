@@ -1,4 +1,4 @@
-https://github.com/KatUser/job4j_cars/actions/workflows/maven_no_graph.yml/badge.svg
+ 
 🚗🚓🚕🚙🚜
 
 **CARS = Современное удобное приложение для покупки-продажи авто с минимальным фнкционалом**:
